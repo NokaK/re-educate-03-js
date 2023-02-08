@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="weather" class="white black">
+
+    </div>
+
+
+
+    <input type="text" id="input">
+    <button id="click">
+        click me
+    </button>
+    <p id="text"></p>
+
+
+
+
+    <div id="open">open link</div>
+
+
+    <script>
+        // ღილაკლის კლიკზე ინფუთში შეყვანილი ინფორმაციის გამოტანა
+
+        const input = document.getElementById('input')
+        const click = document.getElementById('click')
+        const text = document.getElementById('text')
+
+        click.addEventListener('click', () => {
+
+            console.log(input.value)
+            console.log(text)
+            text.textContent = input.value
+        })
+
+
+        // ყოველ 2 წამში  ელემენტის შექმნა და დამატება
+
+        setInterval(() => {
+            const body = document.getElementsByTagName('body')[0]
+            const p = document.createElement('p')
+            p.textContent = 'this is async function'
+            body.appendChild(p)
+
+        }, 2000)
+
+
+        // მოცემულია ობიექტების მასივი
+        //  1 გაფილტრული დატა ვისი ხელფასიც მეტია 600 ზე
+        // 2 ვისი ხელფასიც ნაკლებია 600ზე, დავაბრუნოთ გაორმაგებული მნიშნელობა
+
+
+        const data = [
+            { name: 'gio', salary: 500 },
+            { name: 'ana', salary: 600 },
+            { name: 'nika', salary: 1000 },
+            { name: 'lasha', salary: 400 }
+        ]
+
+
+        // 1
+        const filterBySalary = data.filter(item => item.salary > 600)
+
+        // 2
+        const increaseSalary = data.map(item => {
+            if (item.salary < 600) {
+                return { ...item, salary: item.salary * 2 }
+            }
+            else {
+                return item
+            }
+
+        })
+
+
+
+        // ღილაკის კლიკზე ლინკის გახსნა 
+
+        const button = document.getElementById('open')
+        button.addEventListener('click', () => {
+            window.open('https://youtube.com')
+
+        })
+
+
+
+
+        // მოცემულია მასივი, უნდა დავთვალოთ მასივში არსებული age property-სჯამი 
+
+        const persons = [{
+            name: 'Ana',
+            age: 20
+        }, {
+            name: 'teo',
+            age: 22
+        }, {
+            name: 'tgio',
+            age: 24
+        }]
+
+        // ჯამის დათვლა reduce მეთოდის გამოყენებით
+        const sumReduce = persons.reduce((sum, person) => {
+            return sum + person.age
+        }, 0)
+
+
+        // ჯამის დათვლა for ციკლის გამოყენებით
+        const calcAge = (arr) => {
+            let sum = 0
+            for (let index = 0; index < persons.length; index++) {
+                const element = persons[index];
+                sum = sum + element.age
+
+
+            }
+            return sum
+
+        }
+        calcAge(persons)
+
+
+        // მასივში გაფილტრვა ვისის ასაკიც მეტია 21 ზე
+
+        const arrFilter = persons.filter((person) => {
+            return person.age > 21
+        })
+
+        // მასივში გაფილტრვა ვისი სახელიც იწყება t ასოზე
+        const filterWithT = persons.filter(person => {
+            return person.name[0] === 't'
+        })
+
+        // მასივში მოძებნა ვისი სახელიც არის teo
+        const findTeo = persons.find(person => {
+            return person.name === 'teo'
+        })
+
+
+
+
+        // ფინალურ პროექტში მოცემილი api დან ინფორმაციის წამოღება , data არის მთლიანი ობიექტი საიდანაც შეგიძლიათ წაიკითხოთ თიტოეული property
+
+
+        const weatherWrapper = document.getElementById('weather')
+
+        const getData = async () => {
+
+
+            const lat = 41.7151;
+            const lon = 44.8271;
+            const key = '216bb100a41e280521004882f480a942';
+
+
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`)
+
+                const data = await response.json()
+
+                const name = document.createElement('div')
+                const timeZone = document.createElement('div')
+                name.textContent = data.name
+                timeZone.textContent = data.timezone
+
+
+                weatherWrapper.appendChild(name)
+                weatherWrapper.appendChild(timeZone)
+
+            }
+            catch (e) {
+                console.log(e, 'this is error')
+            }
+        }
+
+        getData()
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+.black p {
+  color: white;
+}
+.black h1 {
+  color: white;
+}
+.white h1 {
+  color: black;
+}
+.white p {
+  color: black;
+}
